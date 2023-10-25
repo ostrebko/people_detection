@@ -49,6 +49,7 @@ class getCameraAcc():
                                                                    frame_as_tensor)
             
             cv2.imshow(win_name, np.array(frame_with_bbox.convert("RGB"))) # перевести в numpy из Pyllow
+            #cv2.waitKey(0)
 
         source.release()
         cv2.destroyWindow(win_name)

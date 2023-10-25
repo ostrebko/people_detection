@@ -1,0 +1,20 @@
+{
+  "//" :  "---------------------------------",
+  "//" : "Settings for camera accessing",
+  
+  "//" :  "s = 0 default camera device index = 0, usb camera defice index = 1",
+  "s" : 0,
+
+  "//" :  "Image params for model",
+  "img_height" : 480,
+  "img_width" : 640,
+
+
+  "//" :  "---------------------------------",
+  "//" :  "...",
+  
+  
+
+
+  "//" :  "that's all"
+}

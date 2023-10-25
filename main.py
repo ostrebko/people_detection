@@ -1,7 +1,8 @@
-from utils.camera_acc import get_camera_acc
-
+from utils.camera_acc import getCameraAcc
+from utils.read_config import config_reader
 
 
 if __name__ == '__main__':
     
-    get_camera_acc()
+    config = config_reader('config/data_config.json')
+    getCameraAcc(config).get_camera_acc()

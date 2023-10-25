@@ -1,31 +1,54 @@
-# based from opencv free bootcamp
-
 import cv2
-import sys 
+import sys
+import numpy as np
+from utils.load_model import ModelDetection
 
 
-def get_camera_acc():
-    s = 0 #default camera defice index = 0
+class getCameraAcc():
+    
+    """
+    Function descriptions ...
+    
+    Params:
+    ----------
+    ....
+    
+    name: descr ....
+    
+    """ 
 
-    if len(sys.argv) > 1: 
-        s = sys.argv[1]
-
-    # creating video capture object by calling VideoCapture class 
-    source = cv2.VideoCapture(s) 
-
-    win_name = 'Camera'
-    cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
-
-    while cv2.waitKey(1) != 27: #Escape
-        has_frame, frame = source.read()
-        if not has_frame:
-            break
-        frame = cv2.flip(frame, 1) # inverse, around y-axis
+    def __init__(self, config: dict):
+        super().__init__()
+        self.s = config.s
+    
+    
+    def get_camera_acc(self):
         
-        frame_height = frame.shape[0]
-        frame_widht = frame.shape[1]
+        if len(sys.argv) > 1: 
+            self.s = sys.argv[1]
 
-        cv2.imshow(win_name, frame)
+        # creating video capture object by calling VideoCapture class 
+        source = cv2.VideoCapture(self.s) 
 
-    source.release()
-    cv2.destroyWindow(win_name)
+        win_name = 'Camera'
+        cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
+
+        model_det = ModelDetection()
+        #model = model_det.model
+        #weights = model_det.weights
+
+        while cv2.waitKey(1) != 27: #Escape
+            has_frame, frame = source.read()
+            if not has_frame:
+                break
+            frame = cv2.flip(frame, 1) # inverse, around y-axis
+            
+            # add some function to work with frame
+            preproc_frame, frame_as_tensor = model_det.inference_transforms(frame)
+            frame_with_bbox, prediction = model_det.get_prediction(preproc_frame, 
+                                                                   frame_as_tensor)
+            
+            cv2.imshow(win_name, np.array(frame_with_bbox.convert("RGB"))) # перевести в numpy из Pyllow
+
+        source.release()
+        cv2.destroyWindow(win_name)

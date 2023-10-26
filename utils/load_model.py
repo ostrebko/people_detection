@@ -35,24 +35,32 @@ class ModelDetection():
         
         with torch.no_grad():
 
-        # Use the model and visualize the prediction
+            # Use the model and visualize the prediction
             prediction = self.model(preproc_img)[0]
-            #print(prediction)
-
+            #print(prediction) # for debugging
+            
+            # use all labels
             #labels = [self.weights.meta["categories"][i] for i in prediction["labels"]]
-            labels = [self.weights.meta["categories"][i] for i in prediction["labels"]]
-            #print(labels)
+            #boxes = prediction["boxes"]
 
-            box = draw_bounding_boxes(initial_img, 
-                                  boxes=prediction["boxes"],
-                                  labels=labels,
-                                  colors="red",
-                                  width=4, 
-                                  #font_size=30
-                                  )
+            #choose only 'person' label
+            mask_person = prediction['labels'] == 1
+            labels = torch.sum(mask_person)*['person']
+            boxes = prediction["boxes"][mask_person]
+            #print(labels) # for debugging
+            
+            if labels:
+                box = draw_bounding_boxes(initial_img, 
+                                        boxes=boxes,
+                                        labels=labels,
+                                        colors="red",
+                                        width=4, 
+                                        #font_size=30
+                                        )
+            
+                im = to_pil_image(box.detach())
+            else:
+                im = to_pil_image(initial_img)
         
-            im = to_pil_image(box.detach())
-        # im.show()
-
         return im, prediction
     

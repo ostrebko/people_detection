@@ -36,7 +36,7 @@ class getCameraAcc():
         model_det = ModelDetection()
         #model = model_det.model
         #weights = model_det.weights
-
+        
         while cv2.waitKey(1) != 27: #Escape
             has_frame, frame = source.read()
             if not has_frame:
@@ -48,8 +48,8 @@ class getCameraAcc():
             frame_with_bbox, prediction = model_det.get_prediction(preproc_frame, 
                                                                    frame_as_tensor)
             
-            cv2.imshow(win_name, np.array(frame_with_bbox.convert("RGB"))) # перевести в numpy из Pyllow
-            #cv2.waitKey(0)
-
+            cv2.imshow(win_name, np.array(frame_with_bbox.convert("RGB")))
+            #cv2.waitKey(0) # for debugging step by step
+            
         source.release()
         cv2.destroyWindow(win_name)

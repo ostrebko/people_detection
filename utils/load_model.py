@@ -9,9 +9,9 @@ from torchvision.transforms.functional import to_pil_image
 
 
 class ModelDetection():
-    def __init__(self ):# config: dict
+    def __init__(self, config:dict):# config: dict
         super().__init__()
-        #self.config = config
+        self.config = config
         self.weights = weights_4_detection.DEFAULT
         self.model = model_4_detection(weights=self.weights,
                                        score_thresh=0.5).eval()
@@ -44,19 +44,20 @@ class ModelDetection():
             #boxes = prediction["boxes"]
 
             #choose only 'person' label
-            mask_person = prediction['labels'] == 1
-            labels = torch.sum(mask_person)*['person']
+            mask_person = prediction['labels'] == self.config.label_num_category #1
+            labels = torch.sum(
+                mask_person)*[self.weights.meta["categories"][self.config.label_num_category]] #['person']
             boxes = prediction["boxes"][mask_person]
             #print(labels) # for debugging
             
             if labels:
                 box = draw_bounding_boxes(initial_img, 
-                                        boxes=boxes,
-                                        labels=labels,
-                                        colors="red",
-                                        width=4, 
-                                        #font_size=30
-                                        )
+                                          boxes=boxes,
+                                          labels=labels,
+                                          colors=self.config.bbox_color,
+                                          width=self.config.bbox_width, 
+                                          #font_size=30
+                                         )
             
                 im = to_pil_image(box.detach())
             else:

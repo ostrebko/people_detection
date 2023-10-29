@@ -1,13 +1,14 @@
 import cv2
 import sys
 import numpy as np
-from utils.load_model import ModelDetection
+from utils.load_model import modelDetection
+from utils.write_logs import createLogs
 
 
 class getCameraAcc():
     
     """
-    Function descriptions ...
+    Class descriptions ...
     
     Params:
     ----------
@@ -34,10 +35,12 @@ class getCameraAcc():
         win_name = 'Camera'
         cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
 
-        model_det = ModelDetection(self.config)
+        model_det = modelDetection(self.config)
+        logs = createLogs(self.config)
         #model = model_det.model
         #weights = model_det.weights
-        
+        k = 0 #param for debug mode to write num in logs
+
         while cv2.waitKey(1) != 27: #Escape
             has_frame, frame = source.read()
             if not has_frame:
@@ -46,14 +49,23 @@ class getCameraAcc():
             
             # detection people
             preproc_frame, frame_as_tensor = model_det.inference_transforms(frame)
-            frame_with_bbox, prediction = model_det.get_prediction(preproc_frame, 
-                                                                   frame_as_tensor)
+            frame_after_pred, prediction, time_detection = model_det.get_prediction(preproc_frame, 
+                                                                                    frame_as_tensor)
             
-            # some func to do after detection
-
-
-            cv2.imshow(win_name, np.array(frame_with_bbox.convert("RGB")))
+            # some func to do after detection - think to optimize
+            if time_detection:
+                k+=1
+                if k%30==0:
+                    logs.write_log_csv(str(time_detection))
+            else:
+                k-=1
+                if k<=0:
+                    k=0
+            print(k)
+            
+            cv2.imshow(win_name, np.array(frame_after_pred.convert("RGB")))
             #cv2.waitKey(0) # for debugging step by step
-            
+        
+        logs.close_log_csv()
         source.release()
         cv2.destroyWindow(win_name)

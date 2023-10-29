@@ -1,22 +1,32 @@
 {
   "//" :  "---------------------------------",
   "//" : "Settings for camera accessing",
-  
   "//" :  "s = 0 default camera device index = 0, usb camera defice index = 1",
   "s" : 0,
+  
 
+  "//" :  "---------------------------------",
+  "//" :  "Params for model",
   "//" :  "Image params for model",
   "img_height" : 480,
   "img_width" : 640,
+  
+  "//" :  "Image params for model",
+  "score_detect_thresh" : 0.5,
+  
 
+  "//" :  "---------------------------------",
   "//" :  "Params for choosing concrete label detection",
   "label_num_category": 1,
   
+
+  "//" :  "---------------------------------",
   "//" :  "Bounding box params",
   "bbox_color": "red",
   "bbox_width": 4,
+  
 
-
+  "//" :  "---------------------------------",
   "//" :  "Logs params",
   "//" :  "...",
   "logs_path": "./logs/",

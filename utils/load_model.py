@@ -1,5 +1,6 @@
 import cv2
 import torch
+import numpy as np
 
 from torchvision.models.detection import ssdlite320_mobilenet_v3_large as model_4_detection
 from torchvision.models.detection import SSDLite320_MobileNet_V3_Large_Weights as weights_4_detection
@@ -8,13 +9,26 @@ from torchvision.transforms.functional import to_pil_image
 
 
 
-class ModelDetection():
+class modelDetection():
+    
+    """
+    Class descriptions ...
+    
+    Params:
+    ----------
+    ....
+    
+    name: descr ....
+    
+    """ 
+    
     def __init__(self, config:dict):# config: dict
         super().__init__()
         self.config = config
         self.weights = weights_4_detection.DEFAULT
         self.model = model_4_detection(weights=self.weights,
-                                       score_thresh=0.5).eval()
+                                       score_thresh=self.config.score_detect_thresh).eval()
+
 
     def inference_transforms(self, image):
         
@@ -31,6 +45,7 @@ class ModelDetection():
 
         return preproc_img, img_as_tensor
     
+    
     def get_prediction(self, preproc_img, initial_img):
         
         with torch.no_grad():
@@ -43,7 +58,7 @@ class ModelDetection():
             #labels = [self.weights.meta["categories"][i] for i in prediction["labels"]]
             #boxes = prediction["boxes"]
 
-            #choose only 'person' label
+            #choose only 1 label
             mask_person = prediction['labels'] == self.config.label_num_category #1
             labels = torch.sum(
                 mask_person)*[self.weights.meta["categories"][self.config.label_num_category]] #['person']
@@ -58,10 +73,11 @@ class ModelDetection():
                                           width=self.config.bbox_width, 
                                           #font_size=30
                                          )
-            
+                time_detection = np.datetime64('now') + np.timedelta64(3, 'h')
                 im = to_pil_image(box.detach())
             else:
                 im = to_pil_image(initial_img)
+                time_detection = None
         
-        return im, prediction
+        return im, prediction, time_detection
     

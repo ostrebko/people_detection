@@ -9,11 +9,22 @@
   "img_height" : 480,
   "img_width" : 640,
 
+  "//" :  "Params for choosing concrete label detection",
+  "label_num_category": 1,
+  
+  "//" :  "Bounding box params",
+  "bbox_color": "red",
+  "bbox_width": 4,
 
+
+  "//" :  "Logs params",
+  "//" :  "...",
+  "logs_path": "./logs/",
+  "logs_filename": "detections.csv",
+
+  
   "//" :  "---------------------------------",
   "//" :  "...",
-  
-  
 
 
   "//" :  "that's all"

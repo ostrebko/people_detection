@@ -63,6 +63,8 @@ class modelDetection():
             labels = torch.sum(
                 mask_person)*[self.weights.meta["categories"][self.config.label_num_category]] #['person']
             boxes = prediction["boxes"][mask_person]
+            num_peoples = len(boxes)
+            #print(num_peoples) # for debugging
             #print(labels) # for debugging
             
             if labels:
@@ -79,5 +81,5 @@ class modelDetection():
                 im = to_pil_image(initial_img)
                 time_detection = None
         
-        return im, prediction, time_detection
+        return im, prediction, time_detection, num_peoples
     

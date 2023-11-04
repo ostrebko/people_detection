@@ -30,7 +30,7 @@
   "//" :  "Logs params",
   "//" :  "...",
   "logs_path": "./logs/",
-  "logs_filename": "detections.csv",
+  "db_filename": "detections_database.db",
 
   
   "//" :  "---------------------------------",

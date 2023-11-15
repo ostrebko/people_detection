@@ -1,6 +1,6 @@
 import cv2
 import sys
-import winsound
+#import winsound
 import numpy as np
 from utils.load_model import modelDetection
 from utils.write_db import createLogsDB

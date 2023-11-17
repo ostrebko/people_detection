@@ -10,7 +10,7 @@
 
 * [Introduction](README.md#Introduction)
 * [Project structure](README.md#Project-structure)
-* [Instalation](README.md#Instalation)
+* [Installation](README.md#Installation)
 * [Activation the virtual environment](README.md#Activation-env)
 * [Inference](README.md#Inference)
 * [Creation exe](README.md#Creation-exe)
@@ -54,7 +54,7 @@ car_clf
 </details>
 
 
-## Instalation
+## Installation
 
 <details>
 <summary> Display how to install app </summary> <br>

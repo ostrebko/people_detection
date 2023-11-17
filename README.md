@@ -13,7 +13,7 @@
 * [Instalation](README.md#Instalation)
 * [Activation the virtual environment](README.md#Activation-env)
 * [Inference](README.md#Inference)
-* [Docker](README.md#Docker)
+* [Creation exe](README.md#Creation-exe)
 * [Conclusions](README.md#Conclusions) <br><br>
 
 
@@ -125,23 +125,40 @@ python main.py
 </details>
 
 
-## Docker
+## Creation exe
 <details>
+<summary> Display how to create exe-file  </summary> <br>
 
-<summary> Display how to create and run docker image - Should be finalized </summary> <br>
+<p>Creating executable .exe file to run the application may be necessary in some cases. For example, if Docker and/or Python are not installed on the computer, the user does not have the minimum skills to install and configure the necessary programs and libraries, or it is impossible to prepare the computer accordingly beforehand (when demonstrating the program on the Director's or Customer's computer).<br>
+<p>To create executable .exe file we will use: <a href="www.pyinstaller.org">PyInstaller</a> and the convenient GUI add-in <a href="https://pypi.org/project/auto-py-to-exe/">auto-py-to-exe</a>.<br>
+
+ <p>To create executable .exe file type in the console:
 
 ```Python
-# 1. Create a new image (its size is approximately 3.5 Gb). 
-# In windows, pre-launch Docker desktop
-docker build -t people_detection .
+# 1. Go to the project application and аctivate the virtual environment
+# (see section Introduction)
 
-# 2. Run image in container.
-docker run --rm --name people_detection people_detection
+# 2. Install the PyInstaller package
+pip install pyinstaller
 
-# 3. The created container will be automatically deleted 
-# after executing a sequence of commands from the Dockerfile.  
-# Delete the container and image after usage
-docker rmi people_detection
+# 3. Install the auto-py-to-exe package
+pip install auto-py-to-exe
+
+# 4. Run the auto-py-to-exe installed app
+auto-py-to-exe 
+
+# 5. In the auto-py-to-exe console window select the parameters: 
+# 5.1 Script Location: Specify the full path to the file main.py
+# 5.2 Onefile (--onedir / --onefile): onefile
+# 5.3 Console Window (--console / --windowed) (to see the work of program): Console Based 
+# 5.4 In Advanced --hidden-import add (set plus one time and add the following lib): 1. cv2
+# 5.5 Settings (auto-py-to-exe Specific Options): Specify the full path to the directory of main.py
+# 5.6 The other parameters leave unchanged.
+
+# 6. You can only use the pyinstaller package without installing auto-pytoexe.
+# To do this, after step 2 in the command line, 
+# specifying the correct path to the project "C:/Full/Path/to/main.py ", run:
+pyinstaller --noconfirm --onefile --console --hidden-import "cv2" "C:/Full/Path/to/main.py"
 ```
 </details>
 
